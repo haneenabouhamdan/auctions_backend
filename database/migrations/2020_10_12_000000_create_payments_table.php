@@ -13,12 +13,14 @@ class CreatePaymentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('payments', function (Blueprint $table) {
+        Schema::create('payment_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('payment_id');
-            $table->float('amount', 10, 2);
-            $table->string('currency');
-            $table->string('payment_status');
+            $table->date('expiration');
+            $table->string('credit_card_number');
+            $table->string('name');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('cvv');
             $table->timestamps();
         });
     }

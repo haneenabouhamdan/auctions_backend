@@ -19,14 +19,11 @@ class CreateUsersTable extends Migration
                 $table->string('last_name');
                 $table->string('phone');
                 $table->date('date_of_birth');
-                $table->string('company_name');
-                $table->decimal('longitude', 10, 7);
-                $table->decimal('latitude', 10, 7);
+                $table->string('image')->nullable();
+                $table->string('image_path')->nullable();
                 $table->string('email')->unique();
                 $table->timestamp('email_verified_at')->nullable();
                 $table->string('password');
-                $table->unsignedBigInteger('payment_id');
-                 $table->foreign('payment_id')->references('id')->on('payments')->onDelete('cascade');
                 $table->rememberToken();
                 $table->timestamps();
         });

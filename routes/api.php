@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\WebhookController;
+use App\Http\Controllers\PaymentController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,14 +19,8 @@ use App\Http\Controllers\WebhookController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post(
-    '/stripe/webhook',
-    [WebhookController::class, 'handleWebhook']
-);
-Route::post('/purchase', function (Request $request) {
-    $stripeCharge = $request->user()->charge(
-        100, $request->paymentMethodId
-    );
 
-    // ...
-});
+Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
+
+Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);
+Route::post('/purchase', function (Request $request) { $stripeCharge = $request->user()->charge( 100, $request->paymentMethodId);});
