@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -16,11 +17,16 @@ use App\Http\Controllers\PaymentController;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+//user routes
+Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, 'edit_profile']);
+
+
 
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
 
-Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);
-Route::post('/purchase', function (Request $request) { $stripeCharge = $request->user()->charge( 100, $request->paymentMethodId);});
+
+// Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);
+// Route::post('/purchase', function (Request $request) { $stripeCharge = $request->user()->charge( 100, $request->paymentMethodId);});
