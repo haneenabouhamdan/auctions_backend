@@ -16,6 +16,8 @@ class UserController extends Controller
         $user->date_of_birth = $request->get('date_of_birth');
         $user->balance = $request->get('balance');
         $user->email = $request->get('email');
+        $user->country = $request->get('country');
+        $suer->state = $request->get('state');
 
         $user->save();
 

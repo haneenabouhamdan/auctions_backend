@@ -19,6 +19,8 @@ class CreateUsersTable extends Migration
                 $table->string('last_name');
                 $table->string('phone');
                 $table->decimal('balance');
+                $table->string('country');
+                $table->string('state');
                 $table->date('date_of_birth');
                 $table->string('image')->nullable();
                 $table->string('image_path')->nullable();

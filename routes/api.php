@@ -6,6 +6,7 @@ use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AuctionCategoriesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -24,6 +25,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, 'edit_profile']);
 
 
+//Auction routes
+Route::middleware('auth:sanctum')->get('/getHomesCategories', [AuctionCategoriesController::class, 'getHomesCategories']);
+Route::middleware('auth:sanctum')->get('/getLandsCategories', [AuctionCategoriesController::class, 'getLandsCategories']);
 
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
 
