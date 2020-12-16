@@ -23,11 +23,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 //user routes
 Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, 'edit_profile']);
-
+Route::middleware('auth:sanctum')->post('/editImage', [UserController::class, 'uploadimage']);
 
 //Auction routes
-Route::middleware('auth:sanctum')->get('/getHomesCategories', [AuctionCategoriesController::class, 'getHomesCategories']);
-Route::middleware('auth:sanctum')->get('/getLandsCategories', [AuctionCategoriesController::class, 'getLandsCategories']);
+Route::get('/getHomesCategories', [AuctionCategoriesController::class, 'getHomesCategories']);
+Route::get('/getLandsCategories', [AuctionCategoriesController::class, 'getLandsCategories']);
 
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
 

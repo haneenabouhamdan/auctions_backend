@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -23,4 +24,27 @@ class UserController extends Controller
 
         return json_encode($user);
     }
+    public function uploadimage(Request $request)
+    {
+        $user = User::findOrFail(Auth::id());
+           
+      //check file
+      if ($request->hasFile('image'))
+      {
+            $file      = $request->file('image');
+            $filename  = $file->getClientOriginalName();
+            $extension = $file->getClientOriginalExtension();
+            $picture   = date('His').'-'.$filename;
+            //move image to public/img folder
+            $file->move(public_path('ProfilePictures'), $picture);
+            $user->image='/ProfilePictures'.'/'.$picture;
+            $user->save();
+            return response()->json(["message" => "Image Uploaded Succesfully"]);
+      } 
+      else
+      {
+            return response()->json(["message" => "Select image first."]);
+      }
+    }
+
 }
