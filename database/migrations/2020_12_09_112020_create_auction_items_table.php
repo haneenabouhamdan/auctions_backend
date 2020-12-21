@@ -19,7 +19,18 @@ class CreateAuctionItemsTable extends Migration
             $table->date('start_date');
             $table->date('actual_close_date')->nullable();
             $table->date('planned_close_date');
-            $table->string('option'); //for sale or for rent
+            $table->Integer('area');
+            $table->Integer('bedrooms');//number of bedrooms
+            $table->Integer('bathrooms');//number of bathrooms
+            $table->Integer('diningrooms');//number of diningrooms
+            $table->Integer('Balcony');//number of balcony
+            $table->Integer('parking');//number of parking
+            
+            //services
+            $table->boolean('elevator');
+            $table->boolean('electricity');
+            $table->boolean('heating_cooling');
+            
             $table->float('starting_price'); //low price
             $table->float('final_price'); //high price
             $table->float('preffered_price'); //preferred price (buy now)

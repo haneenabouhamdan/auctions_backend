@@ -11,6 +11,7 @@ class UserController extends Controller
     public function edit_profile($request){
 
         $user = User::findOrFail(Auth::id());
+        
         $user->first_name = $request->get('first_name');
         $user->last_name = $request->get('last_name');
         $user->phone = $request->get('phone');
@@ -19,6 +20,7 @@ class UserController extends Controller
         $user->email = $request->get('email');
         $user->country = $request->get('country');
         $suer->state = $request->get('state');
+        $user->state = $request->get('password');
 
         $user->save();
 
