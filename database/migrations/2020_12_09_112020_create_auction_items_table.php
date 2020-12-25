@@ -18,6 +18,7 @@ class CreateAuctionItemsTable extends Migration
             $table->string('description');
             $table->date('start_date');
             $table->date('actual_close_date')->nullable();
+            $table->string('type'); // home type
             $table->date('planned_close_date');
             $table->Integer('area');
             $table->Integer('bedrooms');//number of bedrooms
@@ -33,7 +34,7 @@ class CreateAuctionItemsTable extends Migration
             
             $table->float('starting_price'); //low price
             $table->float('final_price'); //high price
-            $table->float('preffered_price'); //preferred price (buy now)
+            $table->float('preffered_price')->nullable(); //preferred price (buy now)
             $table->unsignedBigInteger('category_id');
             $table->foreign('category_id')->references('id')->on('auction_categories')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
