@@ -15,7 +15,7 @@ class CreateAuctionImagesTable extends Migration
     {
         Schema::create('auction_images', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
+            $table->longText('path');
             $table->unsignedBigInteger('auction_id');
             $table->foreign('auction_id')->references('id')->on('auction_items')->onDelete('cascade');
             $table->timestamps();

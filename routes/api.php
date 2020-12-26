@@ -6,7 +6,7 @@ use App\Http\Middleware\VerifyCsrfToken;
 use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\AuctionCategoriesController;
+use App\Http\Controllers\AuctionItemsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,9 +26,11 @@ Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, '
 Route::middleware('auth:sanctum')->post('/editImage', [UserController::class, 'uploadimage']);
 
 //Auction routes
-Route::get('/getHomesCategories', [AuctionCategoriesController::class, 'getHomesCategories']);
-Route::get('/getLandsCategories', [AuctionCategoriesController::class, 'getLandsCategories']);
-
+Route::get('/getResdentialItems', [AuctionItemsController::class, 'getResidentialItems']);
+Route::get('/getIndustrialItems', [AuctionItemsController::class, 'getCommercialItems']);
+Route::get('/getCommercialItems', [AuctionItemsController::class, 'getIndustrialItems']);
+Route::get('/getOtherslItems', [AuctionItemsController::class, 'getOthersItems']);
+Route::post('/addAuction', [AuctionItemsController::class, 'add_item']);
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
 
 
