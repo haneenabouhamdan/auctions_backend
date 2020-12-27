@@ -33,27 +33,33 @@ class AuctionItemsController extends Controller
         $item->preffered_price = $request->get('preffered_price');
         $item->longitude = $request->get('longitude');
         $item->latitude = $request->get('latitude');
-        $item->category_id = $request->get('category_id');
-        $item->user_id = Auth::id();
+        $item->auction_categories_id = $request->get('auction_categories_id');
+        $item->users_id = Auth::id();
         $item->save();
         return $this->ImagesController->add_images($request->get('images'),$item->id);
         return response()->json(['item'=>$request]);
 
     }
     public function getResidentialItems(){
-        $categories= AuctionItems::Where('category_id','1')->orderBy('created_at','desc')->get();
-        return response()->json(['categories'=>$categories]);
+        $item= AuctionItems::Where('category_id','1')->orderBy('created_at','desc')->paginate(15);
+        return response()->json(['categories'=>$item]);
     }
     public function getCommercialItems(){
-        $categories= AuctionItems::Where('category_id','2')->orderBy('created_at','desc')->get();
-        return response()->json(['categories'=>$categories]);
+        $item= AuctionItems::Where('category_id','2')->orderBy('created_at','desc')->paginate(10);
+        return response()->json(['categories'=>$item]);
     }
     public function getIndustrialItems(){
-        $categories=AuctionItems::Where('category_id','3')->orderBy('created_at','desc')->get();
-        return response()->json(['categories'=>$categories]);
+        $item=AuctionItems::Where('category_id','3')->orderBy('created_at','desc')->paginate(10);
+        return response()->json(['categories'=>$item]);
     }
     public function getOthersItems(){
-        $categories=AuctionItems::Where('category_id','4')->orderBy('created_at','desc')->get();
-        return response()->json(['categories'=>$categories]);
+        $item=AuctionItems::Where('category_id','4')->orderBy('created_at','desc')->paginate(10);
+        return response()->json(['categories'=>$item]);
+    }
+    public function getAllItems(){
+        $items=AuctionItems::Where('users_id',Auth::id())
+                            ->with('auctionImages')->paginate(3);
+        return response()->json(['items'=>$items]);
+
     }
 }

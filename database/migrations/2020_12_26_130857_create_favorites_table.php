@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAuctionImagesTable extends Migration
+class CreateFavoritesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateAuctionImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('auction_images', function (Blueprint $table) {
+        Schema::create('favorites', function (Blueprint $table) {
             $table->id();
-            $table->longText('path');
             $table->unsignedBigInteger('auction_items_id');
             $table->foreign('auction_items_id')->references('id')->on('auction_items')->onDelete('cascade');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateAuctionImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('auction_images');
+        Schema::dropIfExists('favorites');
     }
 }

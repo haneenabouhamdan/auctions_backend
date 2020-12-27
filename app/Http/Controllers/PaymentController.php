@@ -12,7 +12,7 @@ class PaymentController extends Controller
         $payment = new Payment_details;
         $payment->credit_card_number = $request->credit_card;
         $payment->name  = $request->name;
-        $payment->user_id = Auth::id();
+        $payment->users_id = Auth::id();
         $payment->expiration = $request->expiration;
         $payment->cvv = $request->cvv;
         $payment->save();

@@ -16,10 +16,10 @@ class CreateAuctionItemsTable extends Migration
         Schema::create('auction_items', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->date('start_date');
-            $table->date('actual_close_date')->nullable();
+            $table->dateTime('start_date');
+            $table->dateTime('actual_close_date')->nullable();
             $table->string('type'); // home type
-            $table->date('planned_close_date');
+            $table->dateTime('planned_close_date');
             $table->Integer('area');
             $table->Integer('bedrooms');//number of bedrooms
             $table->Integer('bathrooms');//number of bathrooms
@@ -35,10 +35,10 @@ class CreateAuctionItemsTable extends Migration
             $table->float('starting_price'); //low price
             $table->float('final_price'); //high price
             $table->float('preffered_price')->nullable(); //preferred price (buy now)
-            $table->unsignedBigInteger('category_id');
-            $table->foreign('category_id')->references('id')->on('auction_categories')->onDelete('cascade');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('auction_categories_id');
+            $table->foreign('auction_categories_id')->references('id')->on('auction_categories')->onDelete('cascade');
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->decimal('longitude', 10, 7);
             $table->decimal('latitude', 10, 7);
             $table->timestamps();

@@ -13,15 +13,8 @@ class ImagesController extends Controller
         for($i= 0 ;$i < $num; $i++){
             $img = new AuctionImages;
             $img->path=$images[$i]['dataURL'];
-            $img->auction_id=$itemId;
+            $img->auction_items_id=$itemId;
             $img->save();
         }
     }
-    //     foreach($images as $i){
-    //     $img = new Images;
-    //     $img->path=$i->dataURL;
-    //     $img->auction_id=$itemId;
-    //     $img->save();
-    // }
-    // }
 }

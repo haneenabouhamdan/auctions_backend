@@ -30,9 +30,11 @@ Route::get('/getResdentialItems', [AuctionItemsController::class, 'getResidentia
 Route::get('/getIndustrialItems', [AuctionItemsController::class, 'getCommercialItems']);
 Route::get('/getCommercialItems', [AuctionItemsController::class, 'getIndustrialItems']);
 Route::get('/getOtherslItems', [AuctionItemsController::class, 'getOthersItems']);
-Route::post('/addAuction', [AuctionItemsController::class, 'add_item']);
+Route::middleware('auth:sanctum')->post('/addAuction', [AuctionItemsController::class, 'add_item']);
+Route::middleware('auth:sanctum')->get('/getUserAuctions', [AuctionItemsController::class, 'getAllItems']);
+
+
+//payment routes
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
-
-
-// Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);
-// Route::post('/purchase', function (Request $request) { $stripeCharge = $request->user()->charge( 100, $request->paymentMethodId);});
+Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);
+Route::post('/purchase', function (Request $request) { $stripeCharge = $request->user()->charge( 100, $request->paymentMethodId);});

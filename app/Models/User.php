@@ -6,19 +6,24 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
+    public function auctionItems()
+    {
+        return $this->belongsTo(AuctionItems::class);
+    }
     // $user->charge(100, $paymentMethod, [
     //     'custom_option' => $value,
     // ]);
 
 
-//     $payment = $user->charge(100, $paymentMethodId);
+    // $payment = $user->charge(100, $paymentMethodId);
 
-// $user->refund($payment->id);
+    // $user->refund($payment->id);
 
     /**
      * The attributes that are mass assignable.

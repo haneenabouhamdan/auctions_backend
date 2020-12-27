@@ -18,8 +18,8 @@ class CreatePaymentsTable extends Migration
             $table->date('expiration');
             $table->string('credit_card_number');
             $table->string('name');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->unsignedBigInteger('users_id');
+            $table->foreign('users_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('cvv');
             $table->timestamps();
         });
