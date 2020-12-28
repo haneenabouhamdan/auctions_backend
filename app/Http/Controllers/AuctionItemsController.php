@@ -62,4 +62,10 @@ class AuctionItemsController extends Controller
         return response()->json(['items'=>$items]);
 
     }
+    public function getAllOtherItems(){
+        $items=AuctionItems::Where('users_id','!=',Auth::id())
+                            ->with('auctionImages')->paginate(3);
+        return response()->json(['items'=>$items]);
+
+    }
 }
