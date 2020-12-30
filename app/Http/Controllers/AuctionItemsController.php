@@ -42,26 +42,35 @@ class AuctionItemsController extends Controller
     }
     public function getResidentialItems(){
         $item= AuctionItems::Where('auction_categories_id','=',1)
-        ->Where('users_id','!=',Auth::id())
+        // ->Where('users_id','!=',Auth::id())
         ->orderBy('created_at','desc')
         ->with('auctionImages')
         ->paginate(10);
         return response()->json(['items'=>$item]);
     }
     public function getCommercialItems(){
-        $item= AuctionItems::Where('category_id','2')
-        ->orderBy('created_at','desc')->paginate(10);
-        return response()->json(['categories'=>$item]);
+        $item= AuctionItems::Where('auction_categories_id','=',2)
+        // ->Where('users_id','!=',Auth::id())
+        ->orderBy('created_at','desc')
+        ->with('auctionImages')
+        ->paginate(10);
+        return response()->json(['items'=>$item]);
     }
     public function getIndustrialItems(){
-        $item=AuctionItems::Where('category_id','3')
-        ->orderBy('created_at','desc')->paginate(10);
-        return response()->json(['categories'=>$item]);
+        $item= AuctionItems::Where('auction_categories_id','=',3)
+        // ->Where('users_id','!=',Auth::id())
+        ->orderBy('created_at','desc')
+        ->with('auctionImages')
+        ->paginate(10);
+        return response()->json(['items'=>$item]);
     }
     public function getOthersItems(){
-        $item=AuctionItems::Where('category_id','4')
-        ->orderBy('created_at','desc')->paginate(10);
-        return response()->json(['categories'=>$item]);
+        $item= AuctionItems::Where('auction_categories_id','=',4)
+        // ->Where('users_id','!=',Auth::id())
+        ->orderBy('created_at','desc')
+        ->with('auctionImages')
+        ->paginate(10);
+        return response()->json(['items'=>$item]);
     }
     public function getAllItems(){
         $items=AuctionItems::Where('users_id',Auth::id())

@@ -20,11 +20,18 @@ class UserController extends Controller
         $user->email = $request->get('email');
         $user->country = $request->get('country');
         $suer->state = $request->get('state');
-        $user->state = $request->get('password');
+        $user->password = $request->get('password');
 
         $user->save();
 
         return json_encode($user);
+    }
+    public function add_fav(Request $request){
+        $fav = new Favorites;
+        $fav->auction_items_id = $request->get('itemid');
+        $fav->user_id = Auth::id();
+        $fav->save();
+        return response()->json(['item'=>$fav]);
     }
     public function uploadimage(Request $request)
     {
