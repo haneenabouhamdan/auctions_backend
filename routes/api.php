@@ -24,18 +24,23 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //user routes
 Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, 'edit_profile']);
 Route::middleware('auth:sanctum')->post('/editImage', [UserController::class, 'uploadimage']);
-Route::middleware('auth:sanctum')->get('/addFav', [UserController::class, 'add_fav']);
+Route::middleware('auth:sanctum')->post('/addFav', [UserController::class, 'add_fav']);
+
 
 //Auction routes
 Route::get('/getResdentialItems', [AuctionItemsController::class, 'getResidentialItems']);
-Route::get('/getIndustrialItems', [AuctionItemsController::class, 'getCommercialItems']);
-Route::get('/getCommercialItems', [AuctionItemsController::class, 'getIndustrialItems']);
+Route::get('/getCommercialItems', [AuctionItemsController::class, 'getCommercialItems']);
+Route::get('/getIndustrialItems', [AuctionItemsController::class, 'getIndustrialItems']);
 Route::get('/getOtherslItems', [AuctionItemsController::class, 'getOthersItems']);
+Route::middleware('auth:sanctum')->get('/getCount', [AuctionItemsController::class, 'getCount']);
+Route::middleware('auth:sanctum')->get('/getFavCount', [AuctionItemsController::class, 'getFavCount']);
 Route::middleware('auth:sanctum')->post('/addAuction', [AuctionItemsController::class, 'add_item']);
 Route::middleware('auth:sanctum')->get('/getUserAuctions', [AuctionItemsController::class, 'getAllItems']);
 Route::middleware('auth:sanctum')->get('/getAllAuctions', [AuctionItemsController::class, 'getAllOtherItems']);
-
-
+Route::middleware('auth:sanctum')->get('/getFav', [AuctionItemsController::class, 'getFavItems']);
+Route::middleware('auth:sanctum')->post('/remFav', [AuctionItemsController::class, 'removeFavItems']);
+Route::middleware('auth:sanctum')->get('/getItemDetails', [AuctionItemsController::class, 'getItemDetails']);
+Route::middleware('auth:sanctum')->post('/remAuc', [AuctionItemsController::class, 'removeItems']);
 
 //payment routes
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);

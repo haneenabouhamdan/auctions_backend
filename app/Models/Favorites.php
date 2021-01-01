@@ -7,8 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Favorites extends Model
 {
     use HasFactory;
-    public function auctionItems()
+    public function auction_item()
     {
-        return $this->hasMany(AuctionItems::class);
+        return $this->BelongsTo(AuctionItems::class)->with('auctionImages');
     }
+   
 }

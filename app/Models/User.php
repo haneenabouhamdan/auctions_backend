@@ -16,6 +16,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(AuctionItems::class);
     }
+   
     // $user->charge(100, $paymentMethod, [
     //     'custom_option' => $value,
     // ]);

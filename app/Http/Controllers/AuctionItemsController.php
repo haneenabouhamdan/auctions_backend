@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\ImagesController;
 use Illuminate\Http\Request;
 use App\Models\AuctionItems;
+use App\Models\User;
+use App\Models\Favorites;
 use Illuminate\Support\Facades\Auth;
 
 class AuctionItemsController extends Controller
@@ -48,6 +50,22 @@ class AuctionItemsController extends Controller
         ->paginate(10);
         return response()->json(['items'=>$item]);
     }
+    public function getFavItems(){
+       $item = AuctionItems::with('auctionImages')
+       ->whereHas('favorites',
+       function($query){
+           $query->where('user_id',Auth::id());
+       })->paginate(10);
+        return response()->json(['items'=>$item]);
+    }
+    public function removeFavItems(Request $request){
+        $item = Favorites::where('auction_items_id','=',$request->get('auction_id'))->delete();
+        return response()->json(["Deleted"]);
+    }
+    public function removeItems(Request $request){
+        $item = AuctionItems::where('id','=',$request->get('auction_id'))->delete();
+        return response()->json(["Deleted"]);
+    }
     public function getCommercialItems(){
         $item= AuctionItems::Where('auction_categories_id','=',2)
         // ->Where('users_id','!=',Auth::id())
@@ -83,5 +101,17 @@ class AuctionItemsController extends Controller
                             ->with('auctionImages')->paginate(10);
         return response()->json(['items'=>$items]);
 
+    }
+    public function getItemDetails(Request $request){
+        $item = AuctionItems::Where('id','=',2)->get();
+        return response()->json(['item'=>$item]);
+    }
+    public function getCount(){
+        $num = AuctionItems::where('users_id','=',Auth::id())->count();
+        return response()->json(['item'=>$num]);
+    }
+    public function getFavCount(){
+        $num = Favorites::where('user_id','=',Auth::id())->count();
+        return response()->json(['item'=>$num]);
     }
 }

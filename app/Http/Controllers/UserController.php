@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\User;
+use App\Models\Favorites;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,11 +29,12 @@ class UserController extends Controller
     }
     public function add_fav(Request $request){
         $fav = new Favorites;
-        $fav->auction_items_id = $request->get('itemid');
+        $fav->auction_items_id = $request->get('auction_id');
         $fav->user_id = Auth::id();
         $fav->save();
         return response()->json(['item'=>$fav]);
     }
+  
     public function uploadimage(Request $request)
     {
         $user = User::findOrFail(Auth::id());
