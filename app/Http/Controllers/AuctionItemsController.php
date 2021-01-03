@@ -43,11 +43,14 @@ class AuctionItemsController extends Controller
 
     }
     public function getResidentialItems(){
-        $item= AuctionItems::Where('auction_categories_id','=',1)
-        // ->Where('users_id','!=',Auth::id())
-        ->orderBy('created_at','desc')
-        ->with('auctionImages')
-        ->paginate(10);
+        $item= AuctionItems::Where('users_id','!=',Auth::id())
+            ->Where(function($query){
+            $query->Where('auction_categories_id',1)
+                ->orWhere('auction_categories_id',4);
+             })
+                ->orderBy('created_at','desc')
+                ->with('auctionImages')
+                ->paginate(10);
         return response()->json(['items'=>$item]);
     }
     public function getFavItems(){
@@ -67,16 +70,22 @@ class AuctionItemsController extends Controller
         return response()->json(["Deleted"]);
     }
     public function getCommercialItems(){
-        $item= AuctionItems::Where('auction_categories_id','=',2)
-        // ->Where('users_id','!=',Auth::id())
+        $item= AuctionItems::Where('users_id','!=',Auth::id())
+         ->Where(function($query){
+            $query->Where('auction_categories_id',2)
+                ->orWhere('auction_categories_id',4);
+             })
         ->orderBy('created_at','desc')
         ->with('auctionImages')
         ->paginate(10);
         return response()->json(['items'=>$item]);
     }
     public function getIndustrialItems(){
-        $item= AuctionItems::Where('auction_categories_id','=',3)
-        // ->Where('users_id','!=',Auth::id())
+        $item= AuctionItems::Where('users_id','!=',Auth::id())
+        ->Where(function($query){
+           $query->Where('auction_categories_id',3)
+               ->orWhere('auction_categories_id',4);
+            })
         ->orderBy('created_at','desc')
         ->with('auctionImages')
         ->paginate(10);
@@ -84,7 +93,7 @@ class AuctionItemsController extends Controller
     }
     public function getOthersItems(){
         $item= AuctionItems::Where('auction_categories_id','=',4)
-        // ->Where('users_id','!=',Auth::id())
+        ->Where('users_id','!=',Auth::id())
         ->orderBy('created_at','desc')
         ->with('auctionImages')
         ->paginate(10);
@@ -102,10 +111,7 @@ class AuctionItemsController extends Controller
         return response()->json(['items'=>$items]);
 
     }
-    public function getItemDetails(Request $request){
-        $item = AuctionItems::Where('id','=',2)->get();
-        return response()->json(['item'=>$item]);
-    }
+   
     public function getCount(){
         $num = AuctionItems::where('users_id','=',Auth::id())->count();
         return response()->json(['item'=>$num]);
@@ -114,4 +120,5 @@ class AuctionItemsController extends Controller
         $num = Favorites::where('user_id','=',Auth::id())->count();
         return response()->json(['item'=>$num]);
     }
+  
 }

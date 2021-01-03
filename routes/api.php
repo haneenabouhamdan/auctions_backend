@@ -25,6 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, 'edit_profile']);
 Route::middleware('auth:sanctum')->post('/editImage', [UserController::class, 'uploadimage']);
 Route::middleware('auth:sanctum')->post('/addFav', [UserController::class, 'add_fav']);
+Route::get('/getUser/{owner_id}', [UserController::class,'getUser']);
 
 
 //Auction routes
@@ -41,7 +42,7 @@ Route::middleware('auth:sanctum')->get('/getFav', [AuctionItemsController::class
 Route::middleware('auth:sanctum')->post('/remFav', [AuctionItemsController::class, 'removeFavItems']);
 Route::middleware('auth:sanctum')->get('/getItemDetails', [AuctionItemsController::class, 'getItemDetails']);
 Route::middleware('auth:sanctum')->post('/remAuc', [AuctionItemsController::class, 'removeItems']);
-
+Route::get('/getItem',[AuctionItemsController::class, 'getItem']);
 //payment routes
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
 Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);

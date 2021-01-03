@@ -57,5 +57,9 @@ class UserController extends Controller
             return response()->json(["message" => "Select image first."]);
       }
     }
-
+    public function getUser($owner_id){
+        // $id = $request->id;
+        $owner = User::findOrFail($owner_id);
+        return response()->json(["user"=>$owner]);
+    }
 }
