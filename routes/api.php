@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->post('/remFav', [AuctionItemsController::clas
 Route::middleware('auth:sanctum')->get('/getItemDetails', [AuctionItemsController::class, 'getItemDetails']);
 Route::middleware('auth:sanctum')->post('/remAuc', [AuctionItemsController::class, 'removeItems']);
 Route::get('/getItem',[AuctionItemsController::class, 'getItem']);
+Route::middleware('auth:sanctum')->post('/closeAuc', [AuctionItemsController::class, 'closeAuc']);
 //payment routes
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
 Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);

@@ -32,18 +32,19 @@ class AuctionItemsController extends Controller
         $item->electricity = $request->get('electricity');
         $item->heating_cooling = $request->get('heating_cooling');
         $item->starting_price = $request->get('starting_price');
-        $item->preffered_price = $request->get('preffered_price');
+        $item->preffered_price = $request->get('category');
         $item->longitude = $request->get('longitude');
         $item->latitude = $request->get('latitude');
         $item->auction_categories_id = $request->get('auction_categories_id');
         $item->users_id = Auth::id();
         $item->save();
-        return $this->ImagesController->add_images($request->get('images'),$item->id);
-        return response()->json(['item'=>$request]);
+        $this->ImagesController->add_images($request->get('images'),$item->id);
+        return response()->json(['item'=>$item->id,'owner'=>$item->users_id]);
 
     }
     public function getResidentialItems(){
         $item= AuctionItems::Where('users_id','!=',Auth::id())
+            ->Where('actual_close_date','=',null)
             ->Where(function($query){
             $query->Where('auction_categories_id',1)
                 ->orWhere('auction_categories_id',4);
@@ -71,6 +72,7 @@ class AuctionItemsController extends Controller
     }
     public function getCommercialItems(){
         $item= AuctionItems::Where('users_id','!=',Auth::id())
+        ->Where('actual_close_date','=',null)
          ->Where(function($query){
             $query->Where('auction_categories_id',2)
                 ->orWhere('auction_categories_id',4);
@@ -82,6 +84,7 @@ class AuctionItemsController extends Controller
     }
     public function getIndustrialItems(){
         $item= AuctionItems::Where('users_id','!=',Auth::id())
+        ->Where('actual_close_date','=',null)
         ->Where(function($query){
            $query->Where('auction_categories_id',3)
                ->orWhere('auction_categories_id',4);
@@ -94,6 +97,7 @@ class AuctionItemsController extends Controller
     public function getOthersItems(){
         $item= AuctionItems::Where('auction_categories_id','=',4)
         ->Where('users_id','!=',Auth::id())
+        ->Where('actual_close_date','=',null)
         ->orderBy('created_at','desc')
         ->with('auctionImages')
         ->paginate(10);
@@ -101,12 +105,13 @@ class AuctionItemsController extends Controller
     }
     public function getAllItems(){
         $items=AuctionItems::Where('users_id',Auth::id())
-                            ->with('auctionImages')->paginate(10);
+                            ->with('auctionImages')->orderBy('created_at','DESC')->paginate(10);
         return response()->json(['items'=>$items]);
 
     }
     public function getAllOtherItems(){
         $items=AuctionItems::Where('users_id','!=',Auth::id())
+                            ->Where('actual_close_date','=',null)
                             ->with('auctionImages')->paginate(10);
         return response()->json(['items'=>$items]);
 
@@ -120,5 +125,16 @@ class AuctionItemsController extends Controller
         $num = Favorites::where('user_id','=',Auth::id())->count();
         return response()->json(['item'=>$num]);
     }
-  
+    public function getItem(){
+       $num = AuctionItems::latest()->first();;
+        return response()->json(['item'=>$num]);
+    }
+     public function closeAuc(Request $request)
+    {
+        $item = AuctionItems::findOrFail($request->get('auction_id'));
+        $item->actual_close_date = $request->get('closeDate');
+        $item->save();
+        return json_encode($item);
+    }
+   
 }

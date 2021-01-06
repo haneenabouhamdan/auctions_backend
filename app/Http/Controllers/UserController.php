@@ -58,7 +58,6 @@ class UserController extends Controller
       }
     }
     public function getUser($owner_id){
-        // $id = $request->id;
         $owner = User::findOrFail($owner_id);
         return response()->json(["user"=>$owner]);
     }
