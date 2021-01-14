@@ -61,4 +61,20 @@ class UserController extends Controller
         $owner = User::findOrFail($owner_id);
         return response()->json(["user"=>$owner]);
     }
+    public function getAllEmails(){
+        $emails= User::Where('id','!=',Auth::id())
+                    ->get('email');
+        return response()->json(['emails'=>$emails]);
+    }
+    public function getUserByFullname(Request $request){
+        $email=User::where('first_name','=',$request->get('fname'))
+        ->where('last_name','=',$request->get('lname'))->get('email');
+        return response()->json(['email'=>$email]);
+    }
+    public function getEmail($id){
+        $email=User::where('id','=',$id)->get('email');
+        return response()->json(['email'=>$email]);
+    }
+    
+
 }

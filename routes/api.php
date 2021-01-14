@@ -7,6 +7,7 @@ use App\Http\Controllers\WebhookController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuctionItemsController;
+use App\Http\Controllers\InterestsController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -26,8 +27,9 @@ Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, '
 Route::middleware('auth:sanctum')->post('/editImage', [UserController::class, 'uploadimage']);
 Route::middleware('auth:sanctum')->post('/addFav', [UserController::class, 'add_fav']);
 Route::get('/getUser/{owner_id}', [UserController::class,'getUser']);
-
-
+Route::middleware('auth:sanctum')->get('/getAllEmails',[UserController::class, 'getAllEmails']);
+Route::middleware('auth:sanctum')->post('/getUserByFullname',[UserController::class, 'getUserByFullname']);
+Route::middleware('auth:sanctum')->get('/getEmail/{id}', [UserController::class, 'getEmail']);
 //Auction routes
 Route::get('/getResdentialItems', [AuctionItemsController::class, 'getResidentialItems']);
 Route::get('/getCommercialItems', [AuctionItemsController::class, 'getCommercialItems']);
@@ -43,7 +45,19 @@ Route::middleware('auth:sanctum')->post('/remFav', [AuctionItemsController::clas
 Route::middleware('auth:sanctum')->get('/getItemDetails', [AuctionItemsController::class, 'getItemDetails']);
 Route::middleware('auth:sanctum')->post('/remAuc', [AuctionItemsController::class, 'removeItems']);
 Route::get('/getItem',[AuctionItemsController::class, 'getItem']);
+Route::get('/getDetails/{id}',[AuctionItemsController::class, 'getDetails']);
 Route::middleware('auth:sanctum')->post('/closeAuc', [AuctionItemsController::class, 'closeAuc']);
+Route::get('/getUserAuctions',[AuctionItemsController::class, 'getAuctions']);
+Route::middleware('auth:sanctum')->post('/getItemsById', [AuctionItemsController::class, 'getItemsById']);
+
+
+//Interests
+Route::middleware('auth:sanctum')->post('/addInterest', [InterestsController::class, 'add_interest']);
+Route::middleware('auth:sanctum')->get('/getInterests',[InterestsController::class, 'get_interests']);
+Route::middleware('auth:sanctum')->post('/deleteInterest',[InterestsController::class, 'del_interest']);
+//filtering
+Route::post('/filter',[AuctionItemsController::class, 'filter']);
+
 //payment routes
 Route::post('/addPayment',[PaymentController::class,'addPaymentDetails']);
 Route::post('/stripe/webhook',[WebhookController::class, 'handleWebhook']);

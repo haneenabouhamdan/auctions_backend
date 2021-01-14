@@ -105,7 +105,8 @@ class AuctionItemsController extends Controller
     }
     public function getAllItems(){
         $items=AuctionItems::Where('users_id',Auth::id())
-                            ->with('auctionImages')->orderBy('created_at','DESC')->paginate(10);
+                            ->with('auctionImages')->orderBy('created_at','DESC')
+                            ->paginate(10);
         return response()->json(['items'=>$items]);
 
     }
@@ -136,5 +137,32 @@ class AuctionItemsController extends Controller
         $item->save();
         return json_encode($item);
     }
-   
+   public function getDetails($id){
+    $item = AuctionItems::Where('id','=',$id)->with('auctionImages')->get();
+    return response()->json(['item'=>$item]);
+   }
+   public function filter(Request $request){
+      $items=AuctionItems::where('users_id','!=',Auth::id())
+      ->area($request->get('area_min'),$request->get('area_max'))
+      ->Category($request->get('category'))
+      ->baths($request->get('baths'))
+      ->beds($request->get('beds'))
+      ->type($request->get('type'))
+      ->elec($request->get('electricity'))
+      ->elev($request->get('elevator'))
+      ->parking($request->get('parking'))
+      ->cat($request->get('cat'))
+      ->paginate(10);
+      return response()->json(['item'=>$items]); 
+   }
+   public function getAuctions(){
+    $items = AuctionItems::Where('users_id','=',Auth::id())
+    ->Where('actual_close_date','=',null)
+            ->with('auctionImages')->get();
+    return response()->json(['items'=>$items]);
+   }
+  public function getItemsById(Request $request){
+        $items = AuctionItems::Where('id',$request->get('id'))->get();
+       return response()->json(['items'=>$allitems]);
+  }
 }

@@ -15,7 +15,7 @@ class CreateAuctionItemsTable extends Migration
     {
         Schema::create('auction_items', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->longText('description');
             $table->dateTime('start_date');
             $table->dateTime('actual_close_date')->nullable();
             $table->string('type'); // home type
