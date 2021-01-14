@@ -47,7 +47,7 @@ Route::middleware('auth:sanctum')->post('/remAuc', [AuctionItemsController::clas
 Route::get('/getItem',[AuctionItemsController::class, 'getItem']);
 Route::get('/getDetails/{id}',[AuctionItemsController::class, 'getDetails']);
 Route::middleware('auth:sanctum')->post('/closeAuc', [AuctionItemsController::class, 'closeAuc']);
-Route::get('/getUserAuctions',[AuctionItemsController::class, 'getAuctions']);
+Route::get('/getUAuctions',[AuctionItemsController::class, 'getAuctions']);
 Route::middleware('auth:sanctum')->post('/getItemsById', [AuctionItemsController::class, 'getItemsById']);
 
 

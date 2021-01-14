@@ -143,15 +143,17 @@ class AuctionItemsController extends Controller
    }
    public function filter(Request $request){
       $items=AuctionItems::where('users_id','!=',Auth::id())
+      ->with('auctionImages')
       ->area($request->get('area_min'),$request->get('area_max'))
       ->Category($request->get('category'))
       ->baths($request->get('baths'))
       ->beds($request->get('beds'))
-      ->type($request->get('type'))
+    //   ->type($request->get('type'))
       ->elec($request->get('electricity'))
       ->elev($request->get('elevator'))
       ->parking($request->get('parking'))
       ->cat($request->get('cat'))
+    
       ->paginate(10);
       return response()->json(['item'=>$items]); 
    }

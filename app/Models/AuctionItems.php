@@ -31,7 +31,7 @@ class AuctionItems extends Model
     }
     public function scopeCategory($query,$category){
         if($category!='a'){
-            return $query->where('prefferred_price','=',$category);
+            return $query->where('preffered_price','=',$category);
         }
         return $query;
     }
@@ -47,9 +47,10 @@ class AuctionItems extends Model
         }
         return $query;
     }
-    public function scopeType($query,$type){
-        if($type!='a'){
-            return $query->where('type','=',$type);
+    public function scopeType($query,$array){
+        $length=count($array);
+        if($length>0){
+            return $query->orWhere('type',$array[((int)$length) - 1])->type(array_pop($array));
         }
         return $query;
     }
