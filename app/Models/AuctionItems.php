@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AuctionItems extends Model
 {
     use HasFactory;
+    protected $with=['auctionImages'];
     public function auctionCatgories()
     {
         return $this->belongsTo(AuctionCategories::class);

@@ -8,6 +8,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuctionItemsController;
 use App\Http\Controllers\InterestsController;
+use App\Http\Controllers\WinnerController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,7 +20,7 @@ use App\Http\Controllers\InterestsController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::get('/user', function (Request $request) {
     return $request->user();
 });
 //user routes
@@ -27,6 +28,8 @@ Route::middleware('auth:sanctum')->post('/users/edit', [UserController::class, '
 Route::middleware('auth:sanctum')->post('/editImage', [UserController::class, 'uploadimage']);
 Route::middleware('auth:sanctum')->post('/addFav', [UserController::class, 'add_fav']);
 Route::get('/getUser/{owner_id}', [UserController::class,'getUser']);
+Route::middleware('auth:sanctum')->get('/getWin/{id}', [UserController::class,'getUseer']);
+Route::get('/countwins', [WinnerController::class,'getCountWins']);
 Route::middleware('auth:sanctum')->get('/getAllEmails',[UserController::class, 'getAllEmails']);
 Route::middleware('auth:sanctum')->post('/getUserByFullname',[UserController::class, 'getUserByFullname']);
 Route::middleware('auth:sanctum')->get('/getEmail/{id}', [UserController::class, 'getEmail']);
@@ -39,7 +42,7 @@ Route::middleware('auth:sanctum')->get('/getCount', [AuctionItemsController::cla
 Route::middleware('auth:sanctum')->get('/getFavCount', [AuctionItemsController::class, 'getFavCount']);
 Route::middleware('auth:sanctum')->post('/addAuction', [AuctionItemsController::class, 'add_item']);
 Route::middleware('auth:sanctum')->get('/getUserAuctions', [AuctionItemsController::class, 'getAllItems']);
-Route::middleware('auth:sanctum')->get('/getAllAuctions', [AuctionItemsController::class, 'getAllOtherItems']);
+Route::get('/getAllAuctions', [AuctionItemsController::class, 'getAllOtherItems']);
 Route::middleware('auth:sanctum')->get('/getFav', [AuctionItemsController::class, 'getFavItems']);
 Route::middleware('auth:sanctum')->post('/remFav', [AuctionItemsController::class, 'removeFavItems']);
 Route::middleware('auth:sanctum')->get('/getItemDetails', [AuctionItemsController::class, 'getItemDetails']);
@@ -48,13 +51,17 @@ Route::get('/getItem',[AuctionItemsController::class, 'getItem']);
 Route::get('/getDetails/{id}',[AuctionItemsController::class, 'getDetails']);
 Route::middleware('auth:sanctum')->post('/closeAuc', [AuctionItemsController::class, 'closeAuc']);
 Route::get('/getUAuctions',[AuctionItemsController::class, 'getAuctions']);
-Route::middleware('auth:sanctum')->post('/getItemsById', [AuctionItemsController::class, 'getItemsById']);
-
+// Route::middleware('auth:sanctum')->post('/getItemsById', [AuctionItemsController::class, 'getItemsById']);
+Route::middleware('auth:sanctum')->post('/getParAuctions',[AuctionItemsController::class, 'getItemsById']);
 
 //Interests
 Route::middleware('auth:sanctum')->post('/addInterest', [InterestsController::class, 'add_interest']);
-Route::middleware('auth:sanctum')->get('/getInterests',[InterestsController::class, 'get_interests']);
+Route::get('/getInterests',[InterestsController::class, 'get_interests']);
 Route::middleware('auth:sanctum')->post('/deleteInterest',[InterestsController::class, 'del_interest']);
+Route::post('/recomend',[AuctionItemsController::class, 'getRecomend']);
+Route::middleware('auth:sanctum')->post('/SetWinner',[WinnerController::class,'add_winner']);
+Route::middleware('auth:sanctum')->get('/getWon',[AuctionItemsController::class,'get_won_items']);
+Route::middleware('auth:sanctum')->get('/getTheWinner/{id}',[WinnerController::class,'get_winner']);
 //filtering
 Route::post('/filter',[AuctionItemsController::class, 'filter']);
 

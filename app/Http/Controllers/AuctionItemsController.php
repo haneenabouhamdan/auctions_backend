@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\ImagesController;
 use Illuminate\Http\Request;
 use App\Models\AuctionItems;
+use App\Models\AuctionImages;
 use App\Models\User;
+use App\Models\Winner;
 use App\Models\Favorites;
 use Illuminate\Support\Facades\Auth;
 
@@ -144,16 +146,15 @@ class AuctionItemsController extends Controller
    public function filter(Request $request){
       $items=AuctionItems::where('users_id','!=',Auth::id())
       ->with('auctionImages')
-      ->area($request->get('area_min'),$request->get('area_max'))
-      ->Category($request->get('category'))
-      ->baths($request->get('baths'))
+    //   ->area($request->get('area_min'),$request->get('area_max'))
+    //   ->Category($request->get('category'))
+    //   ->baths($request->get('baths'))
       ->beds($request->get('beds'))
     //   ->type($request->get('type'))
-      ->elec($request->get('electricity'))
-      ->elev($request->get('elevator'))
-      ->parking($request->get('parking'))
-      ->cat($request->get('cat'))
-    
+    //   ->elec($request->get('electricity'))
+    //   ->elev($request->get('elevator'))
+    //   ->parking($request->get('parking'))
+    //   ->cat($request->get('cat'))
       ->paginate(10);
       return response()->json(['item'=>$items]); 
    }
@@ -163,8 +164,31 @@ class AuctionItemsController extends Controller
             ->with('auctionImages')->get();
     return response()->json(['items'=>$items]);
    }
-  public function getItemsById(Request $request){
-        $items = AuctionItems::Where('id',$request->get('id'))->get();
-       return response()->json(['items'=>$allitems]);
+//   public function getItemsById(Request $request){
+//         $items = AuctionItems::Where('id',$request->get('id'))->get();
+//        return response()->json(['items'=>$allitems]);
+//   }
+  public function getRecomend(Request $request){
+      $items=AuctionItems::Where('users_id','!=',Auth::id())
+      ->with('auctionImages')
+      ->where('type','=',$request->get('type'))
+      ->where('area','<=',$request->get('area'))
+      ->Where('actual_close_date','=',null)
+            
+         ->orderBy('created_at','desc')
+         ->get();
+         return response()->json(['items'=>$items]);           
   }
+  public function get_won_items(Request $request){
+        $item=Winner::where('winners_id','=',Auth::id())
+        ->with('auctionItems')->paginate(10);
+
+
+    // $item = AuctionItems::leftJoin('winners',function($join) {
+    //     $join->on('auction_items.id', '=', 'winners.item_id');
+    //   }) ->Where('winners_id','=',Auth::id());
+    //   dd($item);
+    return response()->json(['item'=>$item]);
+}
+  
 }
