@@ -107,7 +107,6 @@ class AuctionItemsController extends Controller
     }
     public function getAllItems(){
         $items=AuctionItems::Where('users_id',Auth::id())
-                            ->with('auctionImages')->orderBy('created_at','DESC')
                             ->paginate(10);
         return response()->json(['items'=>$items]);
 
@@ -182,12 +181,6 @@ class AuctionItemsController extends Controller
   public function get_won_items(Request $request){
         $item=Winner::where('winners_id','=',Auth::id())
         ->with('auctionItems')->paginate(10);
-
-
-    // $item = AuctionItems::leftJoin('winners',function($join) {
-    //     $join->on('auction_items.id', '=', 'winners.item_id');
-    //   }) ->Where('winners_id','=',Auth::id());
-    //   dd($item);
     return response()->json(['item'=>$item]);
 }
   
